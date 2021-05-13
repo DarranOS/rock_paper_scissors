@@ -6,28 +6,119 @@
         <body>
             <script>
     // computer pick
+                
+                let computerChoice;
+                let playerChoice;
+                let currentRound;
+                let playerScore;
+                let computerScore;
+                let playerInput;
+
                 function computerPlay() {
-                    let randomNumber = Math.floor(Math.random() * 3 + 1);
+                let randomNumber = Math.floor(Math.random() * 3 + 1);
                     switch(randomNumber){
                         case 1: 
-                        return "Rock";
+                        computerChoice = "Rock";
                         break;
                         case 2:
-                        return "Paper";
+                        computerChoice = "Paper";
                         break;
                         case 3: 
-                        return "Scissors";
+                        computerChoice = "Scissors";
                         break;
     
                     }
                 }
     
-                function randomChecker(cap) {
-                    for (i = 1; i <= cap; i++) {
-                    console.log(computerPlay());
+
+                // function playerInput(input){
+                //     playerChoice = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();                                  
+                // }
+
+                //Refactor to have separate judge and reporting functions.    
+
+                function playRound(playerChoice, computerChoice){
+                    let youWin = false;
+                    let youLose = false;
+                    if (playerChoice === computerChoice) {
+                        return;
+                    } else if (playerChoice === "Rock" && computerChoice === "Scissors"){
+                        youWin = true;                       ;
+                    } else if (playerChoice === "Scissors" && computerChoice === "Paper") {
+                        youWin = true;
+                    } else if (playerChoice === "Paper" && computerChoice === "Rock") {
+                        youWin = true;                        ;
+                    } else {
+                        youLose = true;
+                        
                     }
-    
+
+                    roundReport(); 
                 }
+
+                function roundReport() {
+                if (youWin) {    
+                    playerScore += 1;
+                    console.log(`You choose ${playerChoice} and the computer choose ${computerChoice}. You win!`,  playerScore + " - " + computerScore);
+                } else if (youLose){
+                    computerScore += 1;
+                    console.log(`You choose ${playerChoice} and the computer choose ${computerChoice}. You LOSE!!!`,  playerScore + " - " + computerScore);
+                } else {
+                    return;
+                }
+
+
+
+                function game() {
+                    currentRound = 1;
+                    playerScore = 0;
+                    computerScore = 0;
+                    
+                    //start loop. If currentRound is less than 5,
+                    while(currentRound < 4) {
+                        //open a player prompt.
+                        let playerInput = prompt("Choose from 'Rock', 'Paper', or 'Scissors'.");
+                        // get the players info
+                        let playerChoice = playerInput.charAt(0).toUpperCase() + playerInput.slice(1).toLowerCase();
+                        
+                        //run the random generator
+                        let computerChoice = computerPlay();
+                        
+                        
+                        //play the round.
+                        console.log(playerChoice, computerChoice);
+
+
+                        //increase the round count to break loop
+                        currentRound += 1;
+                    }     
+                    
+                    // currentRound is more than 4,
+                    // log(`Player won ${playerScore} hands + Computer won ${computerScore} hands).
+
+                }
+
+    
+                // Refactored stuff
+                //     function playRound(playerChoice, computerChoice){
+                //     console.log(playerChoice, computerChoice);
+                //     if (playerChoice === computerChoice) {
+                //         console.log("Draw");
+                //     } else if (playerChoice === "Rock" && computerChoice === "Scissors"){
+                //         playerScore += 1;
+                //         console.log("You win!", playerScore + " - " + computerScore);
+                //     } else if (playerChoice === "Scissors" && computerChoice === "Paper") {
+                //         playerScore += 1;
+                //         console.log("You win!",  playerScore + " - " + computerScore);
+                //     } else if (playerChoice === "Paper" && computerChoice === "Rock") {
+                //         playerScore += 1;
+                //         console.log("You win!",  playerScore + " - " + computerScore);
+                //     } else {
+                //         computerScore += 1;
+                //         console.log("YOU LOSE!!",  playerScore + " - " + computerScore);
+                        
+                //     }
+                // }
             
     
     
