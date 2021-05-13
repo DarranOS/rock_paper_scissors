@@ -51,35 +51,69 @@
             function roundReport(result) {
                 if (result === "Win") {    
                     playerScore += 1;
-                    console.log(`You: ${playerChoice}. Computer: ${computerChoice}. You win!`,  playerScore + " - " + computerScore);
+                    console.log(`Round ${currentRound} of 5: You: ${playerChoice}. Computer: ${computerChoice}. %cYou win!  ${playerScore} - ${computerScore}`, `color: green`);
                 } else if (result === "Loss"){
                     computerScore += 1;
-                    console.log(`You: ${playerChoice}. Computer: ${computerChoice}. You lose!`,  playerScore + " - " + computerScore);
+                    console.log(`Round ${currentRound} of 5: You: ${playerChoice}. Computer: ${computerChoice}. %cYou lose!,  ${playerScore} - ${computerScore}`, `color: red`);
                 } else {
-                    console.log(`You: ${playerChoice}. Computer: ${computerChoice}. Draw`,  playerScore + " - " + computerScore);
+                    console.log(`Round ${currentRound} of 5: You: ${playerChoice}. Computer: ${computerChoice}. Draw,  ${playerScore}- ${computerScore}`);
                     return;
                 }
             }
 
-            
+            function playerPrompt(){
+                playerInput = prompt(`Round ${currentRound}: Choose from 'Rock', 'Paper', or 'Scissors'.`);
+                // Sends the inputed string to the data validation function
+                validateInput(playerInput);
+            }
+
+            function validateInput(enteredData) {
+                // Put the entered text to proper case
+                playerChoice = enteredData.charAt(0).toUpperCase() + playerInput.slice(1).toLowerCase();
+
+                // Make sure the input matches Rock, Paper or Scissors
+                while(playerChoice !== "Rock" && playerChoice !== "Paper" && playerChoice !== "Scissors") {              
+                    playerPrompt();
+                    }
+                // Sends the correct choice back to the game function.    
+                return;
+            }
+                
+            function announceResults() {
+                console.log(`Final scores, Player: ${playerScore}. Computer: ${computerScore}.`);
+                if (playerScore > computerScore) {
+                    console.log("%cYou win the match!!", "color: green; font-size: 20px; background-color: palegreen");
+                } else if(computerScore > playerScore) {
+                    console.log("%cYou lose the match!!", "color: red; font-size: 18px");
+                } else {
+                    console.log("Match draw");  
+                }
+            }
+
+            function playAgain() {
+                let anotherGame = confirm("Would you like to play again?");
+                if(anotherGame) {
+                    game();
+                } else {
+                    console.log("Thanks for playing! Goodbye")
+                }
+            }
 
             function game() {
                 currentRound = 1;
                 playerScore = 0;
                 computerScore = 0;
+                console.log(`${currentRound} / ${playerScore} / ${computerScore}`);
                 
                 //start loop. If currentRound is less than 5,
                 while(currentRound < 6) {
-                    //open a player prompt.
-                    playerInput = prompt("Choose from 'Rock', 'Paper', or 'Scissors'.");
-                    // get the players info //refactor for data validation. What if they don't enter rock, paper, etc
-                    playerChoice = playerInput.charAt(0).toUpperCase() + playerInput.slice(1).toLowerCase();
+                    //open a player prompt and validate.
+                    playerPrompt();
                     
                     //run the random generator
                     computerChoice = computerPlay();
                     
                     //play the round.
-                    console.log(`Round ${currentRound} of 5`);
                     result = playRound(playerChoice, computerChoice);
                     
                     //report the result
@@ -90,34 +124,13 @@
                 }     
                 
                 // currentRound is more than 4,
-                
-                console.log(`Final scores, Player: ${playerScore}. Computer: ${computerScore}.`);
-                console.log(playerScore > computerScore ? "You win the match!!" : computerScore > playerScore ? "You lose the match" : "Match draw");  
-                console.log("hello");
+
+                announceResults(); 
+
+                playAgain();
+           
 
             }
-
-
-            // Refactored stuff
-            //     function playRound(playerChoice, computerChoice){
-            //     console.log(playerChoice, computerChoice);
-            //     if (playerChoice === computerChoice) {
-            //         console.log("Draw");
-            //     } else if (playerChoice === "Rock" && computerChoice === "Scissors"){
-            //         playerScore += 1;
-            //         console.log("You win!", playerScore + " - " + computerScore);
-            //     } else if (playerChoice === "Scissors" && computerChoice === "Paper") {
-            //         playerScore += 1;
-            //         console.log("You win!",  playerScore + " - " + computerScore);
-            //     } else if (playerChoice === "Paper" && computerChoice === "Rock") {
-            //         playerScore += 1;
-            //         console.log("You win!",  playerScore + " - " + computerScore);
-            //     } else {
-            //         computerScore += 1;
-            //         console.log("YOU LOSE!!",  playerScore + " - " + computerScore);
-                    
-            //     }
-            // }
         
             game();    
     
